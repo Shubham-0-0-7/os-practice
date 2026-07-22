@@ -26,7 +26,7 @@ disk_error:
     call print_nl
     mov dh, ah
     call print_hex
-    jmp disk_load
+    jmp $
 
 sector_error:
     mov bx, SECTOR_ERR 
