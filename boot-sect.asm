@@ -1,44 +1,25 @@
 [org 0x7c00]
-mov ah, 0x0e
-
 mov bp, 0x8000
 mov sp, bp
 
-push "A"
-push "B"
-push "C"
+mov bx, 0x9000
+mov dh, 2
 
-pop bx
-mov al, bl
-int 0x10
+call disk_load
 
-pop bx
-mov al, bl
-int 0x10
-
-pop bx
-mov al, bl
-int 0x10
-
-mov al, [0x8000]
-int 0x10
-
-mov bx, hello
-call print
+mov dx, [0x9000]
+call print_hex
 
 call print_nl
 
-mov al, " "
-int 0x10
-
-mov al, "7"
-int 0x10
-mov al, [the_secret]
-int 0x10
+mov dx, [0x9000+512]
+call print_hex
 
 jmp $
 
 %include "print.asm"
+%include "print-hex.asm"
+%include "disk.asm"
 
 hello:
     db "hellow world", 0
@@ -50,3 +31,6 @@ the_secret:
 
 times 510-($-$$) db 0
 dw 0xaa55
+
+times 256 dw 0xdada
+times 256 dw 0xface
