@@ -3,7 +3,7 @@ LD = i686-elf-ld
 CFLAGS = -ffreestanding -c
 all: os-image.bin
 run: os-image.bin
-	qemu-system-x86_64 -fda os-image.bin
+	qemu-system-x86_64 -drive file=os-image.bin,index=0,if=floppy,format=raw
 
 os-image.bin: main.bin kernel.bin
 	cat main.bin kernel.bin > os-image.bin
@@ -18,11 +18,14 @@ kernel_entry.o: kernel_entry.asm
 kernel.o: kernel.c
 	$(CC) $(CFLAGS) $< -o $@
 
-kernel.bin: kernel_entry.o kernel.o terminal.o
+kernel.bin: kernel_entry.o kernel.o terminal.o ports.o
 	$(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
 
 terminal.o: terminal.c
 	$(CC) $(CFLAGS) $< -o $@
+
+ports.o: ports.asm
+	nasm -f elf32 $< -o $@
 
 clean:
 	rm -rf *.bin *.o os-image.bin

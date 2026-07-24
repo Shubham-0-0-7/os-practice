@@ -1,4 +1,5 @@
 #include "terminal.h"
+#include "ports.h"
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
@@ -18,6 +19,7 @@ void terminal_initialize(void){
             terminal_buff[idx] = vga_entry(' ', terminal_color);
         }
     }
+    terminal_update_cursor();
 }
 
 void terminal_putchar(char c){
@@ -26,6 +28,7 @@ void terminal_putchar(char c){
         if(++terminal_row == VGA_HEIGHT){
             terminal_row =0;
         }
+        terminal_update_cursor();
         return;
     }
     const size_t idx = terminal_row*VGA_WIDTH + terminal_column;
@@ -36,12 +39,23 @@ void terminal_putchar(char c){
             terminal_row=0;
         }
     }
+    terminal_update_cursor();
 }
 
 void terminal_writestring(const char* data){
     for(size_t i=0; data[i]!='\0'; i++){
         terminal_putchar(data[i]);
     }
+}
+
+void terminal_update_cursor(void){
+    uint16_t pos = terminal_row * VGA_WIDTH + terminal_column;
+
+    outb(0x3D4, 0x0F);
+    outb(0x3D5, (uint8_t)(pos & 0xFF));
+    outb(0x3D4, 0x0E);
+    outb(0x3D5, (uint8_t)((pos>>8) & 0xFF));
+
 }
 
 
