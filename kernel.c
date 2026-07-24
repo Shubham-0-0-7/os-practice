@@ -1,11 +1,7 @@
-void main(){
-    char* video_memory = (char*)0xb8000;
-    char* msg = "hellow, from C kernel";
-    int i=0;
-    while(msg[i]!='\0'){
-        video_memory[2*i]=msg[i];
-        video_memory[2*i+1]=0x0f;
-        i++;
-    }
+#include "terminal.h"
 
+void main(){
+    terminal_initialize();
+    terminal_writestring("hellow world from C kernel!\n");
+    terminal_writestring("this is written using our new VGA terminal driver");
 }

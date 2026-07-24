@@ -1,5 +1,9 @@
 [org 0x7c00]
 KERNEL_OFFSET equ 0x1000
+    xor ax, ax
+    mov ds, ax
+    mov es, ax
+
     mov [BOOT_DRIVE], dl
     mov bp, 0x9000
     mov sp, bp
@@ -14,7 +18,7 @@ KERNEL_OFFSET equ 0x1000
 
 load_kernel:
     mov bx, KERNEL_OFFSET
-    mov dh, 1
+    mov dh, 15
     mov dl, [BOOT_DRIVE]
     call disk_load
     ret
