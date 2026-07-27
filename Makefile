@@ -18,8 +18,17 @@ kernel_entry.o: kernel_entry.asm
 kernel.o: kernel.c
 	$(CC) $(CFLAGS) $< -o $@
 
-kernel.bin: kernel_entry.o kernel.o terminal.o ports.o
+kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o
 	$(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
+
+idt.o: idt.c
+	$(CC) $(CFLAGS) $< -o $@
+
+isr.o: isr.c
+	$(CC) $(CFLAGS) $< -o $@
+
+interrupt.o: interrupt.asm
+	nasm -f elf32 $< -o $@
 
 terminal.o: terminal.c
 	$(CC) $(CFLAGS) $< -o $@
