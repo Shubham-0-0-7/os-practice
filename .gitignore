@@ -1,0 +1,8 @@
+# Compiled binaries & disk images
+*.bin
+*.o
+os-image.bin
+
+# OS / Editor generated files
+.DS_Store
+.vscode/
