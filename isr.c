@@ -1,4 +1,5 @@
 #include "isr.h"
+#include "pic.h"
 #include "terminal.h"
 
 isr_t interrupt_handlers[256];
@@ -41,6 +42,15 @@ static const char* exception_messages[] = {
     "30: Security Exception",
     "31: Reserved"
 };
+
+void irq_handler(registers_t regs){
+    pic_send_eoi(regs.int_no-32);
+    if(interrupt_handlers[regs.int_no] != 0){
+        isr_t handler = interrupt_handlers[regs.int_no];
+        handler(regs);
+    }
+
+}
 void isr_handler(registers_t regs){
     terminal_writestring("RECEIVED INTERRUPT EXCEPTION: ");
     if(regs.int_no<32){

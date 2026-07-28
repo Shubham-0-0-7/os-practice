@@ -4,6 +4,7 @@ idt_entry_t idt[256];
 idt_ptr_t idt_ptr;
 
 extern void* isr_stub_table[];
+extern void* irq_stub_table[];
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags){
     idt[num].base_low = base & 0xFFFF;
@@ -27,6 +28,9 @@ void idt_init(void){
 
     for(int i=0; i<32; i++){
         idt_set_gate(i, (uint32_t)isr_stub_table[i], 0x08, 0x8E);
+    }
+    for(int i=0; i<16; i++){
+        idt_set_gate(32+i, (uint32_t)irq_stub_table[i], 0x08, 0x8E);
     }
     idt_flush((uint32_t)&idt_ptr);
 }

@@ -18,8 +18,14 @@ kernel_entry.o: kernel_entry.asm
 kernel.o: kernel.c
 	$(CC) $(CFLAGS) $< -o $@
 
-kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o
+kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o pic.o keyboard.o
 	$(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
+
+pic.o: pic.c
+	$(CC) $(CFLAGS) $< -o $@
+
+keyboard.o: keyboard.c
+	$(CC) $(CFLAGS) $< -o $@
 
 idt.o: idt.c
 	$(CC) $(CFLAGS) $< -o $@

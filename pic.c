@@ -15,10 +15,10 @@ void pic_send_eoi(uint8_t irq){
 }
 
 void pic_remap(void){
-    outb(PIC1_DATA, 0x11);
+    outb(PIC1_COMMAND, 0x11);
     io_wait();
 
-    outb(PIC2_DATA, 0x11);
+    outb(PIC2_COMMAND, 0x11);
     io_wait();
 
     outb(PIC1_DATA, 0x20);

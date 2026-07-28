@@ -1,15 +1,17 @@
+#include "keyboard.h"
 #include "terminal.h"
 #include "idt.h"
+#include "pic.h"
 
 void main(){
     terminal_initialize();
-    terminal_writestring("hellow world from C kernel!\n");
-    terminal_writestring("this is written using our new VGA terminal driver\n");
+    terminal_writestring("initializing prismaOS\n");
+    terminal_writestring("made with <3 by neocipher27 !!\n");
 
-    terminal_writestring("Initializing IDT...\n");
     idt_init();
-    terminal_writestring("testing interrupt exception 3 (breakpoint):\n");
-    __asm__ volatile ("int $3");
-    terminal_writestring("testing interrupt exception 0 (Divide By Zero):\n");
-    __asm__ volatile ("int $0");
+    pic_remap();
+    init_keyboard();
+    
+    __asm__ volatile("sti");
+    terminal_writestring("type something below!! \n");
 }
