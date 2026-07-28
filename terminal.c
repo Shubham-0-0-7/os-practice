@@ -23,6 +23,18 @@ void terminal_initialize(void){
 }
 
 void terminal_putchar(char c){
+    if(c == '\b'){
+        if(terminal_column > 0) terminal_column--;
+        else if(terminal_row > 0){
+            terminal_row--;
+            terminal_column = VGA_WIDTH-1;
+        }
+        const size_t idx = terminal_row * VGA_WIDTH + terminal_column;
+        terminal_buff[idx] = vga_entry(' ', terminal_color);
+
+        terminal_update_cursor();
+        return;
+    }
     if(c == '\n'){
         terminal_column = 0;
         if(++terminal_row == VGA_HEIGHT){
