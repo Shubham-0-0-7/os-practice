@@ -1,6 +1,12 @@
 #include "isr.h"
 #include "terminal.h"
 
+isr_t interrupt_handlers[256];
+
+void register_interrupt_handler(uint8_t n, isr_t handler){
+    interrupt_handlers[n]=handler;
+}
+
 static const char* exception_messages[] = {
     "0: Division By Zero",
     "1: Debug",
