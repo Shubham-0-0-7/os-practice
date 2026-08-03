@@ -6,7 +6,7 @@
 static uint32_t ticks = 0;
 static uint32_t timer_freq = 100;
 
-static void timer_callback(registers regs){
+static void timer_callback(registers_t regs){
     ticks++;
 }
 

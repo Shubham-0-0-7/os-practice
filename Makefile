@@ -18,9 +18,10 @@ kernel_entry.o: kernel_entry.asm
 kernel.o: kernel.c
 	$(CC) $(CFLAGS) $< -o $@
 
-kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o pic.o keyboard.o
+kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o pic.o keyboard.o timer.o
 	$(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
-
+timer.o: timer.c
+	$(CC) $(CFLAGS) $< -o $@
 pic.o: pic.c
 	$(CC) $(CFLAGS) $< -o $@
 

@@ -2,6 +2,7 @@
 #include "terminal.h"
 #include "idt.h"
 #include "pic.h"
+#include "timer.h"
 
 void main(){
     terminal_initialize();
@@ -11,7 +12,10 @@ void main(){
     idt_init();
     pic_remap();
     init_keyboard();
+    init_timer(100);
     
     __asm__ volatile("sti");
+    terminal_writestring("waiting 3 secs...");
+    sleep_ms(3000);
     terminal_writestring("type something below... \n");
 }
