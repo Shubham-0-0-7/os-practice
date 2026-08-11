@@ -17,5 +17,6 @@ void main(){
     __asm__ volatile("sti");
     terminal_writestring("waiting 3 secs...");
     sleep_ms(3000);
+    terminal_writestring("3 seconds done! ... timer works\n");
     terminal_writestring("type something below... \n");
 }
