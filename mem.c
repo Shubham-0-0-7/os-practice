@@ -30,3 +30,19 @@ int memcmp(const void* s1, const void* s2, size_t count){
     }
     return 0;
 }
+
+void* kmalloc(size_t size){
+    void* ret = (void*)free_mem_addr;
+    free_mem_addr += size;
+    return ret;
+}
+
+void* kmalloc_aligned(size_t size){
+    if((free_mem_addr & 0xFFFFF000) != free_mem_addr){
+        free_mem_addr &= 0xFFFFF000;
+        free_mem_addr += 0x1000;
+    }
+    void* ret = (void*)free_mem_addr;
+    free_mem_addr += size;
+    return ret;
+}

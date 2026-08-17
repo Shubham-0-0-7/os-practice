@@ -7,4 +7,7 @@ void* memset(void* dest, int val, size_t count);
 void* memcpy(void* dest, const void* src, size_t count);
 int memcmp(const void* s1, const void* s2, size_t count);
 
+void* kmalloc(size_t size);
+void* kmalloc_aligned(size_t size);
+
 #endif

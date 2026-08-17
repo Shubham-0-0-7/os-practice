@@ -18,10 +18,12 @@ kernel_entry.o: kernel_entry.asm
 kernel.o: kernel.c
 	$(CC) $(CFLAGS) $< -o $@
 
-kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o pic.o keyboard.o timer.o
+kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o pic.o keyboard.o timer.o mem.o
 	$(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
+
 timer.o: timer.c
 	$(CC) $(CFLAGS) $< -o $@
+
 pic.o: pic.c
 	$(CC) $(CFLAGS) $< -o $@
 
@@ -42,6 +44,9 @@ terminal.o: terminal.c
 
 ports.o: ports.asm
 	nasm -f elf32 $< -o $@
+
+mem.o: mem.c
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	rm -rf *.bin *.o os-image.bin
