@@ -1,0 +1,531 @@
+
+Merging object attributes
+
+
+There are no discarded input sections
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .text set to 0x1000
+LOAD kernel_entry.o
+LOAD kernel.o
+LOAD terminal.o
+LOAD ports.o
+LOAD idt.o
+LOAD isr.o
+LOAD interrupt.o
+LOAD pic.o
+LOAD keyboard.o
+LOAD timer.o
+LOAD mem.o
+LOAD string.o
+LOAD shell.o
+                [!provide]                        PROVIDE (__executable_start = SEGMENT_START ("text-segment", 0x8048000))
+                0x08048074                        . = (SEGMENT_START ("text-segment", 0x8048000) + SIZEOF_HEADERS)
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.interp
+ *(.interp)
+
+.hash
+ *(.hash)
+
+.gnu.hash
+ *(.gnu.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.dyn        0x08048074        0x0
+ *(.rel.init)
+ *(.rel.text .rel.text.* .rel.gnu.linkonce.t.*)
+ *(.rel.fini)
+ *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*)
+ *(.rel.data.rel.ro .rel.data.rel.ro.* .rel.gnu.linkonce.d.rel.ro.*)
+ *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*)
+ *(.rel.tdata .rel.tdata.* .rel.gnu.linkonce.td.*)
+ *(.rel.tbss .rel.tbss.* .rel.gnu.linkonce.tb.*)
+ *(.rel.ctors)
+ *(.rel.dtors)
+ *(.rel.got)
+ .rel.got       0x08048074        0x0 kernel_entry.o
+ *(.rel.tls)
+ *(.rel.bss .rel.bss.* .rel.gnu.linkonce.b.*)
+ *(.rel.ifunc)
+
+.rel.plt        0x08048074        0x0
+ *(.rel.plt)
+                [!provide]                        PROVIDE (__rel_iplt_start = .)
+ *(.rel.iplt)
+ .rel.iplt      0x08048074        0x0 kernel_entry.o
+                [!provide]                        PROVIDE (__rel_iplt_end = .)
+
+.relr.dyn
+ *(.relr.dyn)
+
+.init
+ *(SORT_NONE(.init))
+
+.plt            0x08048074        0x0
+ *(.plt)
+ *(.iplt)
+ .iplt          0x08048074        0x0 kernel_entry.o
+
+.plt.got
+ *(.plt.got)
+
+.plt.sec
+ *(.plt.sec)
+
+.text           0x00001000     0x103b
+ *(.text.unlikely .text.*_unlikely .text.unlikely.*)
+ *(.text.exit .text.exit.*)
+ *(.text.startup .text.startup.*)
+ *(.text.hot .text.hot.*)
+ *(SORT_BY_NAME(.text.sorted.*))
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x00001000        0x7 kernel_entry.o
+                0x00001000                _start
+ .text          0x00001007       0x61 kernel.o
+                0x00001007                main
+ .text          0x00001068      0x2e9 terminal.o
+                0x0000108c                terminal_initialize
+                0x0000112a                terminal_putchar
+                0x00001295                terminal_writestring
+                0x000012d5                terminal_update_cursor
+ *fill*         0x00001351        0xf 
+ .text          0x00001360       0x35 ports.o
+                0x00001360                inb
+                0x0000136a                outb
+                0x00001375                inw
+                0x00001380                outw
+                0x0000138d                io_wait
+ .text          0x00001395      0x122 idt.o
+                0x00001395                idt_set_gate
+                0x000013f5                idt_init
+ .text          0x000014b7       0xde isr.o
+                0x000014b7                register_interrupt_handler
+                0x000014cb                irq_handler
+                0x0000153c                isr_handler
+ *fill*         0x00001595        0xb 
+ .text          0x000015a0      0x265 interrupt.o
+                0x000015a0                isr0
+                0x000015aa                isr1
+                0x000015b4                isr2
+                0x000015be                isr3
+                0x000015c8                isr4
+                0x000015d2                isr5
+                0x000015dc                isr6
+                0x000015e6                isr7
+                0x000015f0                isr8
+                0x000015f8                isr9
+                0x00001602                isr10
+                0x0000160a                isr11
+                0x0000160f                isr12
+                0x00001614                isr13
+                0x00001619                isr14
+                0x0000161e                isr15
+                0x00001623                isr16
+                0x00001628                isr17
+                0x0000162f                isr18
+                0x00001634                isr19
+                0x0000163b                isr20
+                0x00001642                isr21
+                0x00001649                isr22
+                0x0000164e                isr23
+                0x00001655                isr24
+                0x0000165c                isr25
+                0x00001663                isr26
+                0x0000166a                isr27
+                0x00001671                isr28
+                0x00001676                isr29
+                0x0000167d                isr30
+                0x00001684                isr31
+                0x000016b0                isr_stub_table
+                0x00001730                irq0
+                0x00001737                irq1
+                0x0000173e                irq2
+                0x00001745                irq3
+                0x0000174c                irq4
+                0x00001753                irq5
+                0x0000175a                irq6
+                0x00001761                irq7
+                0x00001768                irq8
+                0x0000176f                irq9
+                0x00001776                irq10
+                0x0000177d                irq11
+                0x00001784                irq12
+                0x0000178b                irq13
+                0x00001792                irq14
+                0x00001799                irq15
+                0x000017c5                irq_stub_table
+ .text          0x00001805      0x116 pic.o
+                0x00001805                pic_send_eoi
+                0x00001835                pic_remap
+ .text          0x0000191b       0xf2 keyboard.o
+                0x000019f2                init_keyboard
+ .text          0x00001a0d       0xbe timer.o
+                0x00001a20                init_timer
+                0x00001a8d                get_ticks
+                0x00001a97                sleep_ms
+ .text          0x00001acb      0x150 mem.o
+                0x00001acb                memset
+                0x00001afe                memcpy
+                0x00001b3f                memcmp
+                0x00001ba9                kmalloc
+                0x00001bcc                kmalloc_aligned
+ .text          0x00001c1b      0x1fe string.o
+                0x00001c1b                strlen
+                0x00001c42                strcmp
+                0x00001c85                strncmp
+                0x00001cd9                strcpy
+                0x00001d07                itoa
+ .text          0x00001e19      0x222 shell.o
+                0x00001e19                shell_init
+                0x00001f41                shell_input
+ *(.gnu.warning)
+
+.fini
+ *(SORT_NONE(.fini))
+                [!provide]                        PROVIDE (__etext = .)
+                [!provide]                        PROVIDE (_etext = .)
+                [!provide]                        PROVIDE (etext = .)
+
+.rodata         0x00002040      0x4d2
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata        0x00002040       0x38 kernel.o
+ .rodata        0x00002078        0x8 terminal.o
+ .rodata        0x00002080      0x2c3 isr.o
+ *fill*         0x00002343       0x1d 
+ .rodata        0x00002360       0x3a keyboard.o
+ *fill*         0x0000239a        0x2 
+ .rodata        0x0000239c      0x176 shell.o
+
+.rodata1
+ *(.rodata1)
+
+.eh_frame_hdr
+ *(.eh_frame_hdr)
+ *(.eh_frame_entry .eh_frame_entry.*)
+
+.eh_frame
+ *(.eh_frame)
+ *(.eh_frame.*)
+
+.sframe
+ *(.sframe)
+ *(.sframe.*)
+
+.gcc_except_table
+ *(.gcc_except_table .gcc_except_table.*)
+
+.gnu_extab
+ *(.gnu_extab*)
+
+.exception_ranges
+ *(.exception_ranges*)
+
+.note.build-id
+ *(.note.build-id)
+
+.note.GNU-stack
+ *(.note.GNU-stack)
+
+.note.gnu.property
+ *(.note.gnu.property)
+
+.note.ABI-tag
+ *(.note.ABI-tag)
+
+.note.package
+ *(.note.package)
+
+.note.dlopen
+ *(.note.dlopen)
+
+.note.netbsd.ident
+ *(.note.netbsd.ident)
+
+.note.openbsd.ident
+ *(.note.openbsd.ident)
+                0x00003000                        . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE))
+
+.eh_frame
+ *(.eh_frame)
+ *(.eh_frame.*)
+
+.sframe
+ *(.sframe)
+ *(.sframe.*)
+
+.gnu_extab
+ *(.gnu_extab)
+
+.gcc_except_table
+ *(.gcc_except_table .gcc_except_table.*)
+
+.exception_ranges
+ *(.exception_ranges*)
+
+.tdata          0x00003000        0x0
+                [!provide]                        PROVIDE (__tdata_start = .)
+ *(.tdata .tdata.* .gnu.linkonce.td.*)
+
+.tbss
+ *(.tbss .tbss.* .gnu.linkonce.tb.*)
+ *(.tcommon)
+
+.preinit_array  0x00003000        0x0
+                [!provide]                        PROVIDE (__preinit_array_start = .)
+ *(.preinit_array)
+                [!provide]                        PROVIDE (__preinit_array_end = .)
+
+.init_array     0x00003000        0x0
+                [!provide]                        PROVIDE (__init_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
+ *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
+                [!provide]                        PROVIDE (__init_array_end = .)
+
+.fini_array     0x00003000        0x0
+                [!provide]                        PROVIDE (__fini_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
+ *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
+                [!provide]                        PROVIDE (__fini_array_end = .)
+
+.ctors
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+
+.dtors
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+ *(SORT_BY_NAME(.dtors.*))
+ *(.dtors)
+
+.jcr
+ *(.jcr)
+
+.data.rel.ro
+ *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*)
+ *(.data.rel.ro .data.rel.ro.* .gnu.linkonce.d.rel.ro.*)
+
+.dynamic
+ *(.dynamic)
+
+.got            0x00003000        0x0
+ *(.got)
+ .got           0x00003000        0x0 kernel_entry.o
+ *(.igot)
+                0x00003000                        . = DATA_SEGMENT_RELRO_END (., (SIZEOF (.got.plt) >= 0xc)?0xc:0x0)
+
+.got.plt        0x00003000        0x0
+ *(.got.plt)
+ .got.plt       0x00003000        0x0 kernel_entry.o
+ *(.igot.plt)
+ .igot.plt      0x00003000        0x0 kernel_entry.o
+
+.data           0x00003000       0xa8
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x00003000        0x0 kernel.o
+ .data          0x00003000        0x4 terminal.o
+ .data          0x00003004        0x0 idt.o
+ *fill*         0x00003004       0x1c 
+ .data          0x00003020       0x80 isr.o
+ .data          0x000030a0        0x0 pic.o
+ .data          0x000030a0        0x0 keyboard.o
+ .data          0x000030a0        0x4 timer.o
+ .data          0x000030a4        0x4 mem.o
+ .data          0x000030a8        0x0 string.o
+ .data          0x000030a8        0x0 shell.o
+
+.data1
+ *(.data1)
+                0x000030a8                        _edata = .
+                [!provide]                        PROVIDE (edata = .)
+                0x000030a8                        . = ALIGN (ALIGNOF (NEXT_SECTION))
+                0x000030c0                        __bss_start = .
+
+.bss            0x000030c0      0xd48
+ *(.dynbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x000030c0        0x0 kernel.o
+ .bss           0x000030c0        0x9 terminal.o
+ *fill*         0x000030c9       0x17 
+ .bss           0x000030e0      0x806 idt.o
+                0x000030e0                idt
+                0x000038e0                idt_ptr
+ *fill*         0x000038e6       0x1a 
+ .bss           0x00003900      0x400 isr.o
+                0x00003900                interrupt_handlers
+ .bss           0x00003d00        0x0 pic.o
+ .bss           0x00003d00      0x104 keyboard.o
+ .bss           0x00003e04        0x4 timer.o
+ .bss           0x00003e08        0x0 mem.o
+ .bss           0x00003e08        0x0 string.o
+ .bss           0x00003e08        0x0 shell.o
+ *(COMMON)
+                0x00003e08                        . = ALIGN ((. != 0x0)?0x4:0x1)
+                0x00003e08                        . = ALIGN (0x4)
+                0x00003e08                        . = SEGMENT_START ("ldata-segment", .)
+                0x00003e08                        . = ALIGN (0x4)
+                0x00003e08                        _end = .
+                [!provide]                        PROVIDE (end = .)
+                0x00003e08                        . = DATA_SEGMENT_END (.)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x12
+ *(.comment)
+ .comment       0x00000000       0x12 kernel.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 terminal.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 idt.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 isr.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 pic.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 keyboard.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 timer.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 mem.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 string.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 shell.o
+                                 0x13 (size before relaxing)
+
+.gnu.build.attributes
+ *(.gnu.build.attributes .gnu.build.attributes.*)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info .gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line .debug_line.* .debug_line_end)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges
+ *(.debug_ranges)
+
+.debug_addr
+ *(.debug_addr)
+
+.debug_line_str
+ *(.debug_line_str)
+
+.debug_loclists
+ *(.debug_loclists)
+
+.debug_macro
+ *(.debug_macro)
+
+.debug_names
+ *(.debug_names)
+
+.debug_rnglists
+ *(.debug_rnglists)
+
+.debug_str_offsets
+ *(.debug_str_offsets)
+
+.debug_sup
+ *(.debug_sup)
+
+.gnu.attributes
+ *(.gnu.attributes)
+
+/DISCARD/
+ *(.note.GNU-stack)
+ *(.gnu_debuglink)
+ *(.gnu.lto_*)
+ *(.gnu_object_only)
+OUTPUT(kernel.elf elf32-i386)

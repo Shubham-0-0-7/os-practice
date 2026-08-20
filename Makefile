@@ -3,7 +3,7 @@ LD = i686-elf-ld
 CFLAGS = -ffreestanding -c
 all: os-image.bin
 run: os-image.bin
-	qemu-system-x86_64 -drive file=os-image.bin,index=0,if=floppy,format=raw
+	qemu-system-x86_64 -drive file=os-image.bin,format=raw,index=0,media=disk
 
 os-image.bin: main.bin kernel.bin
 	cat main.bin kernel.bin > os-image.bin
@@ -18,7 +18,7 @@ kernel_entry.o: kernel_entry.asm
 kernel.o: kernel.c
 	$(CC) $(CFLAGS) $< -o $@
 
-kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o pic.o keyboard.o timer.o mem.o
+kernel.bin: kernel_entry.o kernel.o terminal.o ports.o idt.o isr.o interrupt.o pic.o keyboard.o timer.o mem.o string.o shell.o
 	$(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
 
 timer.o: timer.c
@@ -46,6 +46,12 @@ ports.o: ports.asm
 	nasm -f elf32 $< -o $@
 
 mem.o: mem.c
+	$(CC) $(CFLAGS) $< -o $@
+
+string.o: string.c
+	$(CC) $(CFLAGS) $< -o $@
+
+shell.o: shell.c
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
