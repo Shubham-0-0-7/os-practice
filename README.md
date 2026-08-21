@@ -1,5 +1,9 @@
 # my-os
 
+## status 21 august 2026
+
+<img width="472" height="344" alt="image" src="https://github.com/user-attachments/assets/420d3884-9e56-47e8-8f16-612fe71598a8" />
+
 ## status 29 july 2026
 
 <img width="472" height="344" alt="image" src="https://github.com/user-attachments/assets/f25c557a-fe4b-4209-8c2c-946fcdffab5e" />    
